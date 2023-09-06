@@ -855,7 +855,10 @@ In this format, the human provides their input after "Human:", and the AI respon
 This approach allows us to harness the power of the language model to generate creative and contextually relevant AI responses, while human input ensures that the conversation remains meaningful and coherent.
 
 By using this interaction format, we can effectively leverage the capabilities of the language model in completing text documents, making it a useful tool for various natural language processing tasks.
+### Instalation
 
+    pip install GPT2LM
+    
 ### What is new in this version?
 
 There are no such big changes in bigram, the only difference is the use of the **`GELU`** activation function instead of the **`ReLU`** activation function.
