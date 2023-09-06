@@ -815,6 +815,7 @@ Here are some links for better understanding.
 6. **_`GELU`_** [Link here](https://paperswithcode.com/method/gelu)
 7. **_`ReLU`_** [Link here](https://paperswithcode.com/method/relu)
 8. **_`ReLU VS GELU`_** [Link here](https://towardsai.net/p/l/is-gelu-the-relu-successor)
+9. **_`GIT Link of this project`_** [Link here](https://github.com/YashrajBaila7/GPT2LM)
 
 Code is completely open source so you can play around it and get a better understanding of it.
 
