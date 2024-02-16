@@ -795,31 +795,7 @@ This project is designed for educational purposes to help you learn and understa
 
 Please note that while this project serves as a learning resource, it is essential to be mindful of the ethical considerations and potential risks associated with AI models. The use of AI technology, especially in generating text, should be done responsibly and with respect for ethical guidelines.
 
-## License
 
-This project is licensed under the [MIT License](LICENSE).
-
-## Talks
-
-Here are some links for better understanding.
-
-1. **_`Attention Is All You Need`_** [link here](https://proceedings.neurips.cc/paper_files/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf)
-
-2. **_`Textbooks Are All You Need`_** [Link here](https://www.researchgate.net/publication/371729045_Textbooks_Are_All_You_Need)
-
-3. **_`GPT(Generative Pre-trained Transformers)`_** [Link here](https://aws.amazon.com/what-is/gpt/)
-
-4. **_`Language Models are Unsupervised Multitask Learners`_** [Link here](https://d4mucfpksywv.cloudfront.net/better-language-models/language-models.pdf)
-
-5. **_`GPT-2`_** [Link here](https://en.wikipedia.org/wiki/GPT-2)
-6. **_`GELU`_** [Link here](https://paperswithcode.com/method/gelu)
-7. **_`ReLU`_** [Link here](https://paperswithcode.com/method/relu)
-8. **_`ReLU VS GELU`_** [Link here](https://towardsai.net/p/l/is-gelu-the-relu-successor)
-9. **_`GIT Link of this project`_** [Link here](https://github.com/YashrajBaila7/GPT2LM)
-
-Code is completely open source so you can play around it and get a better understanding of it.
-
-**_GPT-3_** Hyperparameter are not publicly available yet but you can use your own hyperparameter to train a **_gpt-3_** like base model.
 
 ### How GPT works
 
@@ -855,10 +831,11 @@ In this format, the human provides their input after "Human:", and the AI respon
 This approach allows us to harness the power of the language model to generate creative and contextually relevant AI responses, while human input ensures that the conversation remains meaningful and coherent.
 
 By using this interaction format, we can effectively leverage the capabilities of the language model in completing text documents, making it a useful tool for various natural language processing tasks.
+
 ### Installation
 
     pip install GPT2LM
-    
+
 ### What is new in this version?
 
 There are no such big changes in bigram, the only difference is the use of the **`GELU`** activation function instead of the **`ReLU`** activation function.
@@ -925,3 +902,360 @@ In summary, GPT is a state-of-the-art transformer-based model designed for gener
 Go to Colab or Kaggle and train two models, both on the same dataset but with different versions of GPT2LM, to understand how the model works with different activation functions and why generative AI like GPT uses GELU instead of ReLU, probably the most popular activation function.
 
 Also implement your own ReLU and GELU function and plot the graph of them using matplotlib on two or three different ranges to see the actual difference in both functions because on large ranges the graph will overlap each other and appears as the same graph. So on smaller ranges [-1,1] you will see a very small difference in graphs.
+
+
+# GPT2LM.gpt2
+
+Description: [Implementation of GPT-2 language model for text generation, training custom models and fine-tuning.]
+
+## Utils Module Documentation
+
+### Overview
+
+The `utils` module provides various utility functions used for common tasks such as setting random seeds for reproducibility, setting up logging for experiments, loading/saving models and data, and generating text using language models. Additionally, it includes a lightweight configuration class inspired by YACS (`CfgNode`) for managing experiment configurations.
+
+### Functions
+
+1. `set_seed(seed)`
+   - Description: Set the random seeds for reproducibility across different runs.
+   - Parameters:
+   - `seed` (int): The seed value to set for random number generators. 
+2. `setup_logging(config)`
+   - Description: Set up logging for the experiment. This function creates necessary directories and logs configurations.
+   - Parameters:
+     - `config` (object): Configuration object containing experiment settings.
+3. `CfgNode`
+    - Description: A lightweight configuration class inspired by YACS. This class provides a flexible way to manage configurations for experiments or applications.
+    - `load_text(path)`
+    - Description: Load text data from a file.
+    - Parameters:
+      - `path` (str): The path to the text file.
+    - Returns:
+      - `str` or `None`: The content of the text file as a string if successful, otherwise `None`.
+4. `load_text(path)`
+
+- **Description**: Load text data from a file.
+
+- **Parameters**:
+  - `path` (str): The path to the text file.
+
+- **Returns**:
+  - `str` or `None`: The content of the text file as a string if successful, otherwise `None`.
+
+- **Raises**:
+  - `FileNotFoundError`: If the specified file path does not exist.
+  - `Exception`: If an error occurs while reading the file.
+
+ 5. `load_json_to_text(path)`
+
+- **Description**: Load JSON data from a file and convert it into a single text string.
+
+- **Parameters**:
+  - `path` (str): The path to the JSON file.
+
+- **Returns**:
+  - `str` or `None`: A single text string containing the JSON data if successful, otherwise `None`.
+
+- **Raises**:
+  - `FileNotFoundError`: If the specified file path does not exist.
+  - `Exception`: If an error occurs while reading the JSON file or converting it to text.
+
+---
+
+6. `load_csv_to_text(path)`
+
+- **Description**: Load data from a CSV file and convert it into a single text string.
+
+- **Parameters**:
+  - `path` (str): The path to the CSV file.
+
+- **Returns**:
+  - `str` or `None`: A single text string containing the CSV data if successful, otherwise `None`.
+
+- **Raises**:
+  - `FileNotFoundError`: If the specified file path does not exist.
+  - `Exception`: If an error occurs while reading the CSV file or converting it to text.
+
+  1. `save(path, model)`
+     - Description: Save the model state dictionary to a file.
+      - Parameters:
+        - `path` (str): Path to save the model state dictionary.
+        - `model `(`torch.nn.Module`): Model to save.
+  2. `load(path, model, device=None)`
+      - Description: Load the model state dictionary from a file.
+      - Parameters:
+        - `path` (str): Path to the saved model state dictionary.
+        - `model` (`torch.nn.Module`): Model to load the state dictionary into.
+        - `device` (str, optional): Device to load the model onto (e.g., 'cuda' or 'cpu'). If None, it will automatically detect CUDA availability.
+     - Returns:
+       - `None`
+  3. `Generate(model, prompt, encoder_path, max_len)`
+     - Description: Generate text based on a given prompt using the provided model.
+     - Parameters:
+       - `model` (`torch.nn.Module`): The language model used for text generation.
+       - `prompt` (str): The prompt to start text generation.
+       - `encoder_path` (str): Path to the encoder file for encoding/decoding characters.
+       - `max_len` (int): Maximum length of the generated text.
+     - Returns:
+        - `str`: Generated text based on the prompt.
+  4.  `print_config()`
+      - Description: Function to print the configurations of various GPT models.
+      - Prints the configurations of different GPT models including the number of layers, attention heads, and embedding size.
+  ### Classes
+  - `CfgNode`: Lightweight configuration class inspired by YACS.
+  ### Dependencies
+  - `os`, `sys`, `csv`, `math`, `json`, `time`, `random`, `requests`, `regex`, `numpy`, `tqdm`:  Standard Python libraries for various tasks.
+  - `torch`, `torch.nn`, ``torch.utils.data`: PyTorch library for deep learning.
+  - `torch.utils.data.dataloader`: DataLoader class for loading data in batches.
+  ### Global Variables
+  - `device`: Represents the device on which tensors reside, either "cuda" (GPU) if available or "cpu" if not available.
+ ### Notes
+ - Ensure proper installation of PyTorch and other dependencies to utilize all functions effectively.
+  
+  ## GPT Language Model
+
+  The GPT (Generative Pre-trained Transformer) Language Model is a powerful model architecture based on the Transformer architecture. This implementation includes functionalities for training and generation of text.
+
+  ### Model Architecture:
+
+  1. **Embedding Layers:**
+     - Token Embeddings: Embeds input tokens into a continuous vector space.
+     - Position Embeddings: Embeds the position of each token in the input sequence.
+  2. **Transformer Blocks:**
+     - Each block consists of a causal self-attention layer followed by a feed-forward neural network (MLP).
+     - Layer normalization and residual connections are applied within each block.
+  3. **Language Model Head:**
+     - Linear layer projecting the output of the transformer blocks into logits over the vocabulary.
+
+  ### Key Features:
+
+  1. **Configurable:** 
+     - The model architecture can be configured using a `CfgNode` object, allowing customization of the number of layers, heads, embedding size, and other parameters.
+   2. **Optimization:**
+      - Provides methods for configuring optimizers for training, including options for weight decay and learning rate scheduling.
+   3. **Generation:**
+      - Includes functionality for generating new sequences of text given a conditioning sequence.
+   4. **Initialization:**
+      - Parameters are initialized following best practices for transformer-based models, including custom initialization for certain layers.
+  ### Parameters:
+  - `config`: Configuration object containing model parameters.
+  - `idx`: Input tensor representing token indices.
+  - `targets`: Target tensor for training.
+  - `max_new_tokens`: Maximum number of tokens to generate during text generation.
+  - `temperature`: Temperature parameter for sampling during generation.
+  - `do_sample`: Boolean indicating whether to sample from the distribution during generation.
+  - `top_k`: Number of top-k tokens to consider during sampling.
+  ### Methods:
+  - `forward(idx, targets)`: Performs a forward pass through the model.
+  - `generate(idx, max_new_tokens, temperature, do_sample, top_k)`: Generates new tokens given a conditioning sequence.
+  ### Attributes:
+  - `block_size`: Maximum block size for input sequences.
+  - `device`: Device (CPU or GPU) where the model is currently located.
+  ## CharDataset
+  The `CharDataset` class is designed for handling character-level text data. It prepares the data for training by encoding characters into numerical indices. This dataset is suitable for language modeling tasks where the model predicts the next character in a sequence given the previous characters.
+
+  ### Initialization:
+       CharDataset(data, block_size, output_dir='dir/')
+
+- `data (str)`: Text data to be processed.
+- `block_size (int)`: Size of the text blocks used for training.
+- `output_dir (str, optional)`: Output directory to save the encoder JSON file.
+
+### Attributes:
+- `vocab_size`: Number of unique characters in the dataset.
+- `block_size`: Size of the text blocks.
+- `data`: Raw text data.
+  ### Methods:
+
+- `get_vocab_size()`: Get the vocabulary size.
+- `get_block_size()`: Get the block size.
+- `__len__()`: Get the length of the dataset.
+- `__getitem__(idx)`: Get an item from the dataset by index.
+---
+
+## Encoder
+
+The `Encoder` class provides functionality for encoding and decoding text using an encoder dictionary. It loads the encoder dictionary from a JSON file and provides methods to encode and decode text.
+
+### Initialization:
+    Encoder(encoder_path)
+
+- `encoder_path (str)`: Path to the encoder JSON file.
+### Methods:
+- `encode(s)`: Encode a string into a list of integers. 
+- `decode(l)`: Decode a list of integers into a string.
+  ### Example Usage:
+
+      encoder = Encoder("encoder.json")
+      encoded_text = encoder.encode("Hello, world!")
+      decoded_text = encoder.decode(encoded_text)
+
+---
+
+## FineEncoderDataset
+
+The `FineEncoderDataset` class is similar to `CharDataset` but allows for fine control over the encoding process. It requires an external encoder file (JSON format) for encoding and decoding the text data.
+
+### Initialization:
+
+    FineEncoderDataset(data, encoder_path, block_size)
+
+- `data (str)`: Input data for the dataset.
+- `encoder_path (str)`: Path to the encoder JSON file.
+- `block_size (int)`: Size of each block in the dataset.
+
+### Methods:
+
+- `encode(s)`: Encode the input string using the encoder.
+- `decode(l)`: Decode the input list using the encoder.
+
+### Example Usage:
+
+    dataset = FineEncoderDataset(data, "encoder.json", block_size=128)
+
+---
+
+## Trainer
+
+The `Trainer` class is responsible for training neural networks. It provides functionality for running the training loop, handling data loading, optimization, and callback triggering.
+
+### Initialization:
+
+    Trainer(config, model, train_dataset)
+
+- `config (CfgNode)`: Configuration for the Trainer.
+- `model (nn.Module)`: The neural network model.
+- `train_dataset`: The training dataset.
+
+### Attributes:
+- `device`: Device (CPU or GPU) used for training.
+- `optimizer`: Optimizer used for training.
+- `callbacks`: Dictionary storing callback functions for different events.
+- `iter_num`: Current iteration number.
+- `iter_time`: Time at the current iteration.
+- `iter_dt`: Time difference between the current and previous iteration.
+ 
+### Methods:
+- `add_callback(onevent, callback)`: Add a callback function to be triggered on an event.
+- `set_callback(onevent, callback)`: Set a callback function to be triggered on an event.
+- `trigger_callbacks(onevent)`: Trigger the callbacks for a specific event.
+- `run(num_epochs=None)`: Run the training loop.
+  
+  ### Example Usage:
+
+      trainer = Trainer(config, model, train_dataset)
+      trainer.run(num_epochs=10)
+
+
+---
+
+## FineTuner
+
+The `FineTuner` class is used for fine-tuning a pre-trained model with new data. It initializes the training process with the provided model, data, encoder path, block size, and training configuration.
+
+### Initialization:
+
+    FineTuner(model, data, encoder_path, block_size, train_config)
+
+- `model (torch.nn.Module)`: Model to fine-tune.
+- `data (str)`: Input data for fine-tuning.
+- `encoder_path (str)`: Path to the encoder file.
+- `block_size (int)`: Size of each block in the dataset.
+- `train_config (CfgNode)`: Training configuration for the fine-tuning process.
+
+### Attributes:
+
+- `device`: Device (CPU or GPU) used for fine-tuning.
+
+### Methods:
+
+- `fine_tune(epoch=1)`: Perform fine-tuning of the model for the specified number of epochs.
+
+### Example Usage:
+
+    fine_tuner = FineTuner(model, data, encoder_path, block_size, train_config)
+    fine_tuner.fine_tune(epoch=5)
+
+
+---
+
+## Training a model
+
+    from GPT2LM import gpt2
+
+    block_size=1024 #Example block_size, you can choose your own
+    text=gpt2.load_text('path to .txt) # Can use load_csv() or load_json() for csv and json 
+    train_dataset=gpt2.CharDataset(text, block_size, 'out_dir') # Encoder.json will be save in out_dir
+
+    model_config = gpt2.GPT.get_default_config()
+    model_config.model_type = 'gpt-micro' # more model typesare available, use `print_config()` to see all
+    model_config.vocab_size = train_dataset.vocab_size
+    model_config.block_size = block_size  
+    model = gpt2.GPT(model_config)
+
+
+    train_config = gpt2.Trainer.get_default_config()
+    train_config.learning_rate = 5e-4 
+    train_config.max_iters = 1000 #iters per epoch
+    train_config.batch_size = 64
+    trainer = gpt2.Trainer(train_config, model, train_dataset)
+    trainer.run(10) # number of epochs = 10
+
+    print(gpt2.Generate(model, 'Hi', 'path_to_encoder.json', 200))  # 'Hi' is prompt and 200 is the maximum length of generated response means 200 characters will be generated
+
+
+## Fine Tuning a model
+
+    from GPT2LM import gpt2
+
+    block_size=1024  # same as pre-trained model
+
+    model_config = gpt2.GPT.get_default_config()
+    model_config.model_type = 'gpt-micro'
+    model_config.vocab_size = n # same as pre-trained model
+    model_config.block_size = block_size  
+    model = gpt2.GPT(model_config)
+
+    load('path_to_pre_trained_model', model) # Load model weights from pre-trained model
+    
+    encoder_path = "path_to_encoder.json"
+    fine_data=gpt2.load_text('path_to_txt_file)'
+    fine_config = gpt2.Trainer.get_default_config()
+    fine_config.learning_rate = 5e-4
+    fine_config.max_iters = 1000
+    fine_config.batch_size = 64
+    finetuner = gpt2.FineTuner(model, fine_data, encoder_path, block_size, fine_config)
+    finetuner.fine_tune(3)
+
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+## Talks
+You can check the model `Model_Card` for all the available model types in `GPT2LM.gpt2`.
+
+Here are some links for better understanding.
+
+1. **_`Attention Is All You Need`_** [link here](https://proceedings.neurips.cc/paper_files/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf)
+
+2. **_`Textbooks Are All You Need`_** [Link here](https://www.researchgate.net/publication/371729045_Textbooks_Are_All_You_Need)
+
+3. **_`GPT(Generative Pre-trained Transformers)`_** [Link here](https://aws.amazon.com/what-is/gpt/)
+
+4. **_`Language Models are Unsupervised Multitask Learners`_** [Link here](https://d4mucfpksywv.cloudfront.net/better-language-models/language-models.pdf)
+
+5. **_`GPT-2`_** [Link here](https://en.wikipedia.org/wiki/GPT-2)
+6. **_`GELU`_** [Link here](https://paperswithcode.com/method/gelu)
+7. **_`ReLU`_** [Link here](https://paperswithcode.com/method/relu)
+8. **_`ReLU VS GELU`_** [Link here](https://towardsai.net/p/l/is-gelu-the-relu-successor)
+9. **_`GIT Link of this project`_** [Link here](https://github.com/YashrajBaila7/GPT2LM)
+
+10. **_`PyPI Link of this project`_** [Link here](https://pypi.org/project/GPT2LM/)
+
+
+Code is completely open source so you can play around it and get a better understanding of it.
+
+**_GPT-3_** Hyperparameter are not publicly available yet but you can use your own hyperparameter to train a **_gpt-3_** like base model.
+
+
